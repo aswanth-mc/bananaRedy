@@ -1,0 +1,2219 @@
+/* =========================================================
+   BANANA INTELLIGENCE
+   Complete stylesheet
+   ========================================================= */
+
+:root {
+  --bg: #0b0d10;
+  --bg-dark: #dae4ef;
+
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel-strong: #151a20;
+  --card: #ffffff;
+
+  --text: #ffffff;
+  --text-dark: #111827;
+
+  --muted: #a6adb8;
+  --muted-dark: #5f6775;
+
+  --yellow: #f5c945;
+  --yellow-strong: #f3b51f;
+  --yellow-soft: #fff0a6;
+
+  --green: #7ae38a;
+  --orange: #ff8e3c;
+  --red: #ef4c4c;
+
+  --shadow:
+    0 25px 80px rgba(0, 0, 0, 0.35);
+
+  --shadow-soft:
+    0 12px 35px rgba(0, 0, 0, 0.2);
+
+  --radius-xl: 34px;
+  --radius-lg: 28px;
+  --radius-md: 20px;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  font-family:
+    Inter,
+    "SF Pro Display",
+    "Segoe UI",
+    system-ui,
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(245, 201, 69, 0.12),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #0b0d10 0%,
+      #090b0e 100%
+    );
+
+  color: var(--text);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(245, 201, 69, 0.7);
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.page-shell {
+  width: 100%;
+  max-width: 1280px;
+
+  margin: 0 auto;
+
+  padding:
+    24px
+    20px
+    80px;
+}
+
+
+/* =========================================================
+   TOP NAVIGATION
+   ========================================================= */
+
+.topbar {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 16px 20px;
+
+  background:
+    rgba(17, 21, 26, 0.78);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 22px;
+
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 15px 40px
+    rgba(0, 0, 0, 0.25);
+
+  position: sticky;
+
+  top: 12px;
+
+  z-index: 100;
+}
+
+.brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-width: 0;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8d65a,
+      #efb928
+    );
+
+  box-shadow:
+    inset 0 -4px 10px
+    rgba(0, 0, 0, 0.12);
+
+  font-size: 1.3rem;
+}
+
+.brand-copy {
+  display: flex;
+
+  flex-direction: column;
+
+  line-height: 1.1;
+}
+
+.brand-name {
+  font-size: 1.15rem;
+
+  font-weight: 850;
+
+  letter-spacing: -0.04em;
+}
+
+.brand-tagline {
+  margin-top: 3px;
+
+  color: var(--muted);
+
+  font-size: 0.7rem;
+
+  font-weight: 600;
+}
+
+.nav {
+  display: flex;
+
+  align-items: center;
+
+  gap: 26px;
+}
+
+.nav a {
+  color: var(--muted);
+
+  text-decoration: none;
+
+  font-size: 0.85rem;
+
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease;
+}
+
+.nav a:hover {
+  color: var(--yellow);
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+  display: grid;
+
+  gap: 32px;
+
+  padding-top: 55px;
+}
+
+.hero-copy {
+  text-align: center;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 13px;
+
+  margin-bottom: 16px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(245, 201, 69, 0.1);
+
+  border:
+    1px solid
+    rgba(245, 201, 69, 0.15);
+
+  color: var(--yellow);
+
+  font-size: 0.68rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.13em;
+
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+
+  max-width: 850px;
+
+  font-size:
+    clamp(
+      3rem,
+      7vw,
+      6rem
+    );
+
+  line-height: 0.92;
+
+  letter-spacing: -0.075em;
+
+  font-weight: 900;
+}
+
+.subtitle {
+  margin: 18px 0 0;
+
+  max-width: 650px;
+
+  color: var(--muted);
+
+  font-size:
+    clamp(
+      0.95rem,
+      2vw,
+      1.2rem
+    );
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   SCANNER OUTER SHELL
+   ========================================================= */
+
+.scanner-shell {
+  width: 100%;
+
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  padding: 18px;
+
+  background:
+    rgba(17, 21, 26, 0.95);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 38px;
+
+  box-shadow:
+    0 35px 100px
+    rgba(0, 0, 0, 0.42);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   SCANNER STAGE
+   ========================================================= */
+
+.scanner-stage {
+  position: relative;
+
+  width: 100%;
+
+  height: min(
+    720px,
+    72vh
+  );
+
+  min-height: 520px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background:
+    #151a20;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================================
+   REAL CAMERA VIDEO
+   ========================================================= */
+
+.camera-preview {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  background: #151a20;
+
+  z-index: 1;
+}
+
+
+/*
+   If your camera is portrait on mobile,
+   this keeps it filling the scanner.
+*/
+
+.camera-preview {
+  object-position: center center;
+}
+
+
+/* =========================================================
+   CAMERA DARK OVERLAY
+   ========================================================= */
+
+.scanner-stage::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.08) 0%,
+      transparent 35%,
+      rgba(0, 0, 0, 0.25) 65%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
+}
+
+
+/* =========================================================
+   CAMERA GRID
+   ========================================================= */
+
+.camera-grid {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 1px,
+      transparent 1px
+    );
+
+  background-size: 42px 42px;
+
+  opacity: 0.18;
+
+  mask-image:
+    radial-gradient(
+      circle at center,
+      black 45%,
+      transparent 100%
+    );
+}
+
+
+/* =========================================================
+   SCANNER FRAME
+   ========================================================= */
+
+.camera-frame {
+  position: absolute;
+
+  z-index: 5;
+
+  top: 8%;
+  left: 7%;
+
+  width: 86%;
+  height: 68%;
+
+  border:
+    2px solid
+    rgba(245, 201, 69, 0.7);
+
+  border-radius: 28px;
+
+  background:
+    rgba(10, 14, 19, 0.08);
+
+  box-shadow:
+    0 0 35px
+    rgba(245, 201, 69, 0.08);
+
+  pointer-events: none;
+}
+
+
+/* Scanner corner effect */
+
+.camera-frame::before,
+.camera-frame::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: inherit;
+
+  pointer-events: none;
+}
+
+.camera-frame::before {
+  border:
+    5px solid transparent;
+
+  border-top-color:
+    var(--yellow);
+
+  border-left-color:
+    var(--yellow);
+}
+
+.camera-frame::after {
+  border:
+    5px solid transparent;
+
+  border-right-color:
+    var(--yellow);
+
+  border-bottom-color:
+    var(--yellow);
+}
+
+
+/* =========================================================
+   BANANA GUIDE
+   ========================================================= */
+
+.banana-guide {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  width: 340px;
+  height: 220px;
+
+  display: grid;
+
+  place-items: center;
+
+  z-index: 7;
+
+  pointer-events: none;
+
+  animation:
+    floatGuide
+    3.6s
+    ease-in-out
+    infinite;
+}
+
+.banana-outline {
+  position: relative;
+
+  width: 285px;
+  height: 150px;
+
+  border-radius:
+    50% 50% 52% 48%
+    /
+    60% 56% 44% 40%;
+
+  transform:
+    rotate(-12deg);
+
+  background:
+    rgba(245, 201, 69, 0.06);
+
+  border:
+    3px solid
+    rgba(245, 201, 69, 0.78);
+
+  box-shadow:
+    0 0 25px
+    rgba(245, 201, 69, 0.12);
+}
+
+.banana-outline::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 10px;
+
+  border-radius: inherit;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.16);
+}
+
+.banana-outline::after {
+  content: "";
+
+  position: absolute;
+
+  width: 20px;
+  height: 8px;
+
+  top: 8px;
+  right: 4px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(245, 201, 69, 0.7);
+
+  transform: rotate(15deg);
+}
+
+
+/* =========================================================
+   SCAN LINE
+   ========================================================= */
+
+.scan-line {
+  position: absolute;
+
+  z-index: 8;
+
+  left: 50%;
+
+  top: 15%;
+
+  width: 72%;
+
+  max-width: 760px;
+
+  height: 2px;
+
+  transform:
+    translateX(-50%);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(122, 227, 138, 0.8),
+      #ffffff,
+      rgba(122, 227, 138, 0.8),
+      transparent
+    );
+
+  box-shadow:
+    0 0 18px
+    rgba(122, 227, 138, 0.8);
+
+  pointer-events: none;
+
+  animation:
+    scanSweep
+    2.8s
+    linear
+    infinite;
+}
+
+
+/* =========================================================
+   SCAN STATUS
+   ========================================================= */
+
+.scan-status {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 108px;
+
+  transform:
+    translateX(-50%);
+
+  width: 90%;
+
+  z-index: 20;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  color: #ffffff;
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 2px 12px
+    rgba(0, 0, 0, 0.9);
+
+  pointer-events: none;
+}
+
+.status-text {
+  font-size:
+    clamp(
+      0.75rem,
+      1.5vw,
+      1rem
+    );
+
+  font-weight: 800;
+
+  letter-spacing: 0.04em;
+
+  line-height: 1.4;
+}
+
+.status-indicator {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color:
+    rgba(255, 255, 255, 0.75);
+
+  font-size: 0.68rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background:
+    var(--green);
+
+  box-shadow:
+    0 0 14px
+    rgba(122, 227, 138, 0.9);
+
+  animation:
+    pulse
+    1.8s
+    infinite;
+}
+
+
+/* =========================================================
+   SCAN BUTTON
+   ========================================================= */
+
+.scan-button-wrap {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 24px;
+
+  transform:
+    translateX(-50%);
+
+  width: min(
+    72%,
+    540px
+  );
+
+  z-index: 25;
+}
+
+.scan-button {
+  width: 100%;
+
+  border: none;
+
+  border-radius: 18px;
+
+  padding: 19px 24px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f7d75f 0%,
+      #f3b81a 100%
+    );
+
+  color: #171712;
+
+  font-size: 0.88rem;
+
+  font-weight: 900;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+
+  box-shadow:
+    0 18px 30px
+    rgba(243, 184, 26, 0.34);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.scan-button:hover:not(:disabled) {
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 22px 36px
+    rgba(243, 184, 26, 0.45);
+
+  filter:
+    brightness(1.03);
+}
+
+.scan-button:active:not(:disabled) {
+  transform:
+    translateY(0);
+}
+
+.scan-button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.6;
+}
+
+
+/* =========================================================
+   SCANNER PROGRESS
+   ========================================================= */
+
+.scanner-progress {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 9px;
+
+  margin-top: 18px;
+
+  min-height: 38px;
+}
+
+.scan-step {
+  padding: 8px 12px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  color:
+    rgba(255, 255, 255, 0.42);
+
+  font-size: 0.68rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.03em;
+
+  text-transform: uppercase;
+
+  transition:
+    all 0.25s ease;
+}
+
+.scan-step.active {
+  color:
+    var(--yellow);
+
+  background:
+    rgba(245, 201, 69, 0.1);
+
+  border-color:
+    rgba(245, 201, 69, 0.3);
+}
+
+.scan-step.done {
+  color:
+    var(--green);
+
+  background:
+    rgba(122, 227, 138, 0.08);
+
+  border-color:
+    rgba(122, 227, 138, 0.2);
+}
+
+.scan-step.done::before {
+  content: "✓ ";
+}
+
+
+/* =========================================================
+   RESULT PANEL
+   ========================================================= */
+
+.result-panel {
+  width: 100%;
+
+  max-width: 1100px;
+
+  margin:
+    32px auto 0;
+
+  display: none;
+
+  animation:
+    fadeInUp
+    0.5s
+    ease;
+}
+
+.result-panel {
+  width: 100%;
+  max-width: 1100px;
+  margin: 32px auto 0;
+
+  display: block;
+
+  animation: fadeInUp 0.5s ease;
+}
+
+.result-panel.visible {
+  display: block;
+}
+
+
+/* =========================================================
+   RESULT CARD
+   ========================================================= */
+
+.result-card {
+  padding:
+    clamp(
+      20px,
+      4vw,
+      34px
+    );
+
+  border-radius: 30px;
+
+  background:
+    #ffffff;
+
+  color:
+    var(--text-dark);
+
+  border:
+    1px solid
+    rgba(17, 21, 26, 0.06);
+
+  box-shadow:
+    var(--shadow);
+}
+
+.result-card h2 {
+  margin:
+    0 0 25px;
+
+  font-size:
+    clamp(
+      1.6rem,
+      3vw,
+      2.5rem
+    );
+
+  letter-spacing:
+    -0.06em;
+}
+
+.result-disclaimer {
+  margin: -16px 0 22px;
+  color: var(--muted-dark);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   REPORT GRID
+   ========================================================= */
+
+.report-grid {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1.1fr;
+
+  gap:
+    clamp(
+      20px,
+      4vw,
+      35px
+    );
+
+  align-items: center;
+}
+
+
+/* =========================================================
+   RESULT VISUAL
+   ========================================================= */
+
+.report-visual {
+  position: relative;
+
+  min-height: 300px;
+
+  overflow: hidden;
+
+  border-radius: 26px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f6f4ef,
+      #ece7de
+    );
+
+  border:
+    1px solid
+    rgba(17, 21, 26, 0.05);
+}
+
+.banana-scene {
+  position: absolute;
+
+  inset: 18px;
+
+  overflow: hidden;
+
+  border-radius: 24px;
+
+  background:
+    radial-gradient(
+      circle at 30% 15%,
+      rgba(255,255,255,0.8),
+      transparent 20%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.2),
+      rgba(17,21,26,0.03)
+    );
+}
+
+.banana-render {
+  position: absolute;
+
+  width: 68%;
+  height: 52%;
+
+  left: 50%;
+  top: 51%;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(-12deg);
+
+  border-radius:
+    52% 48% 46% 54%
+    /
+    62% 52% 48% 38%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fde16f 0%,
+      #f5c945 35%,
+      #d69e17 100%
+    );
+
+  box-shadow:
+    inset -16px -10px 20px
+    rgba(116, 87, 0, 0.12),
+
+    inset 12px 12px 22px
+    rgba(255, 255, 255, 0.34),
+
+    0 14px 30px
+    rgba(207, 163, 23, 0.32);
+}
+
+.banana-render::before {
+  content: "";
+
+  position: absolute;
+
+  inset:
+    14%
+    8%
+    12%
+    8%;
+
+  border-radius:
+    inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 16%,
+      rgba(255,255,255,0.22) 22%,
+      transparent 28%,
+      transparent 72%,
+      rgba(255,255,255,0.18) 76%,
+      transparent 84%
+    );
+}
+
+.banana-render::after {
+  content: "";
+
+  position: absolute;
+
+  width: 12%;
+  height: 34%;
+
+  top: 32%;
+  right: 6%;
+
+  border-radius: 999px;
+
+  background:
+    rgba(203, 136, 42, 0.38);
+
+  filter:
+    blur(10px);
+}
+
+
+/* =========================================================
+   CAMERA CAPTURED PHOTO
+   ========================================================= */
+
+.banana-photo {
+  position: absolute;
+
+  inset:
+    8%
+    7%;
+
+  width: 86%;
+  height: 84%;
+
+  object-fit: cover;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 20px 30px
+    rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   SCORE
+   ========================================================= */
+
+.score-block {
+  display: grid;
+
+  gap: 20px;
+}
+
+.score-ring {
+  position: relative;
+
+  width: 190px;
+  height: 190px;
+
+  margin:
+    0 auto;
+}
+
+.score-ring svg {
+  width: 100%;
+  height: 100%;
+
+  transform:
+    rotate(-90deg);
+}
+
+.score-ring .track {
+  fill: none;
+
+  stroke:
+    rgba(17, 21, 26, 0.08);
+
+  stroke-width: 12;
+}
+
+.score-ring .progress {
+  fill: none;
+
+  stroke:
+    url(#bananaGradient);
+
+  stroke-width: 12;
+
+  stroke-linecap: round;
+
+  stroke-dasharray: 440;
+
+  stroke-dashoffset: 100;
+
+  transition:
+    stroke-dashoffset 1s ease;
+}
+
+.score-number {
+  position: absolute;
+
+  inset: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  font-size:
+    clamp(
+      2.2rem,
+      4vw,
+      3rem
+    );
+
+  font-weight: 900;
+
+  letter-spacing:
+    -0.06em;
+}
+
+
+/* =========================================================
+   METRICS
+   ========================================================= */
+
+.metrics {
+  list-style: none;
+
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+
+  gap: 10px;
+}
+
+.metrics li {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding:
+    12px 14px;
+
+  border-radius: 14px;
+
+  background:
+    rgba(17, 21, 26, 0.035);
+
+  border:
+    1px solid
+    rgba(17, 21, 26, 0.05);
+
+  font-size: 0.9rem;
+}
+
+.metrics .label {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-weight: 700;
+}
+
+.metrics .value {
+  color:
+    var(--muted-dark);
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   VERDICT
+   ========================================================= */
+
+.verdict-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  padding:
+    22px 20px;
+
+  margin-top: 24px;
+
+  border-radius: 20px;
+
+  border:
+    1px solid
+    rgba(17, 21, 26, 0.06);
+
+  background:
+    rgba(255, 255, 255, 0.7);
+}
+
+.verdict-card .icon {
+  width: 62px;
+  height: 62px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 18px;
+
+  background:
+    rgba(0, 0, 0, 0.03);
+
+  font-size: 1.8rem;
+}
+
+.verdict-card h3 {
+  margin:
+    0 0 6px;
+
+  font-size:
+    clamp(
+      1.25rem,
+      2vw,
+      2rem
+    );
+
+  letter-spacing:
+    -0.05em;
+}
+
+.verdict-card p {
+  margin: 0;
+
+  color:
+    var(--muted-dark);
+
+  font-size: 0.95rem;
+}
+
+.verdict-card small {
+  display: inline-block;
+
+  margin-top: 8px;
+
+  padding:
+    7px 11px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(245, 201, 69, 0.12);
+
+  color:
+    var(--text-dark);
+
+  font-size: 0.75rem;
+
+  font-weight: 700;
+}
+
+.verdict-ready {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(122, 227, 138, 0.12),
+      rgba(255, 255, 255, 0.7)
+    );
+}
+
+.verdict-almost {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(180, 220, 130, 0.14),
+      rgba(255, 255, 255, 0.7)
+    );
+}
+
+.verdict-perfect {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(245, 201, 69, 0.18),
+      rgba(255, 255, 255, 0.7)
+    );
+}
+
+.verdict-soon {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 142, 60, 0.12),
+      rgba(255, 255, 255, 0.7)
+    );
+}
+
+.verdict-late {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(239, 76, 76, 0.1),
+      rgba(255, 255, 255, 0.7)
+    );
+}
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+.history-section {
+  width: 100%;
+
+  max-width: 1100px;
+
+  margin:
+    35px auto 0;
+
+  padding:
+    clamp(
+      18px,
+      3vw,
+      28px
+    );
+
+  border-radius: 28px;
+
+  background:
+    #ffffff;
+
+  color:
+    var(--text-dark);
+
+  border:
+    1px solid
+    rgba(17, 21, 26, 0.06);
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+.history-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 18px;
+}
+
+.history-header h3 {
+  margin: 0;
+
+  font-size:
+    clamp(
+      1.4rem,
+      3vw,
+      2rem
+    );
+
+  letter-spacing:
+    -0.04em;
+}
+
+.ask-button {
+  border: none;
+
+  border-radius: 999px;
+
+  background:
+    #11151a;
+
+  color: #ffffff;
+
+  padding:
+    11px 17px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.ask-button:hover {
+  transform:
+    translateY(-2px);
+}
+
+.ask-button:active {
+  transform:
+    translateY(0);
+}
+
+
+/* =========================================================
+   HISTORY LIST
+   ========================================================= */
+
+.history-list {
+  display: grid;
+
+  gap: 10px;
+
+  margin-bottom: 26px;
+}
+
+.history-item {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding:
+    14px 16px;
+
+  border-radius: 16px;
+
+  background:
+    rgba(17, 21, 26, 0.035);
+
+  border:
+    1px solid
+    rgba(17, 21, 26, 0.05);
+
+  font-size: 0.85rem;
+
+  font-weight: 700;
+}
+
+.history-item .left {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.history-badge {
+  width: 30px;
+  height: 30px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(245, 201, 69, 0.15);
+}
+
+.history-status {
+  font-size: 0.75rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.06em;
+
+  font-weight: 800;
+
+  color:
+    #1a5f2a;
+}
+
+
+/* =========================================================
+   RIPENESS TIMELINE
+   ========================================================= */
+
+.timeline-wrap {
+  padding-top: 6px;
+}
+
+.timeline-labels {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 13px;
+
+  color:
+    var(--muted-dark);
+
+  font-size: 0.72rem;
+
+  letter-spacing: 0.04em;
+
+  text-transform: uppercase;
+
+  font-weight: 800;
+}
+
+.timeline-bar {
+  position: relative;
+
+  width: 100%;
+
+  height: 18px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(82, 179, 93, 0.2),
+      rgba(245, 201, 69, 0.25),
+      rgba(255, 142, 60, 0.2),
+      rgba(239, 76, 76, 0.22)
+    );
+}
+
+.timeline-track {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  top: 50%;
+
+  transform:
+    translateY(-50%);
+
+  height: 2px;
+
+  background:
+    rgba(17, 21, 26, 0.2);
+}
+
+.timeline-dots {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+
+  border-radius: 50%;
+
+  border:
+    3px solid
+    #ffffff;
+
+  box-shadow:
+    0 6px 18px
+    rgba(17, 21, 26, 0.14);
+}
+
+.dot.unripe {
+  background:
+    #63d977;
+}
+
+.dot.almost {
+  background:
+    #f5d45b;
+}
+
+.dot.perfect {
+  background:
+    #f0b322;
+}
+
+.dot.overripe {
+  background:
+    #ef4c4c;
+}
+
+
+/* =========================================================
+   BANANA SPEECH BUBBLE
+   ========================================================= */
+
+.banana-bubble {
+  position: fixed;
+
+  right: 26px;
+
+  bottom: 30px;
+
+  max-width:
+    min(
+      420px,
+      calc(100% - 36px)
+    );
+
+  padding:
+    15px 18px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(17, 21, 26, 0.96);
+
+  color: #ffffff;
+
+  box-shadow:
+    0 18px 35px
+    rgba(0, 0, 0, 0.3);
+
+  font-weight: 700;
+
+  opacity: 0;
+
+  transform:
+    translateY(12px);
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.26s ease,
+    transform 0.26s ease;
+
+  z-index: 200;
+}
+
+.banana-bubble.visible {
+  opacity: 1;
+
+  transform:
+    translateY(0);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes scanSweep {
+
+  0% {
+    top: 15%;
+    opacity: 0.2;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  50% {
+    top: 70%;
+    opacity: 1;
+  }
+
+  100% {
+    top: 15%;
+    opacity: 0.2;
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.4);
+
+    opacity: 0.7;
+  }
+}
+
+@keyframes floatGuide {
+
+  0%,
+  100% {
+    transform:
+      translate(-50%, -50%)
+      scale(0.98);
+  }
+
+  50% {
+    transform:
+      translate(-50%, -51%)
+      scale(1.02);
+  }
+}
+
+@keyframes fadeInUp {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 820px) {
+
+  .page-shell {
+    padding:
+      16px
+      14px
+      60px;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    padding:
+      15px 14px;
+  }
+
+  .nav {
+    width: 100%;
+
+    justify-content: center;
+
+    gap: 16px;
+
+    flex-wrap: wrap;
+  }
+
+  .hero {
+    padding-top: 40px;
+
+    gap: 25px;
+  }
+
+  .scanner-shell {
+    padding: 12px;
+
+    border-radius: 28px;
+  }
+
+  .scanner-stage {
+    height: 68vh;
+
+    min-height: 540px;
+
+    border-radius: 24px;
+  }
+
+  .camera-frame {
+    top: 8%;
+    left: 5%;
+
+    width: 90%;
+    height: 66%;
+  }
+
+  .banana-guide {
+    width: 260px;
+    height: 180px;
+  }
+
+  .banana-outline {
+    width: 225px;
+    height: 120px;
+  }
+
+  .scan-status {
+    bottom: 100px;
+
+    width: 92%;
+  }
+
+  .scan-button-wrap {
+    width: 86%;
+  }
+
+  .scanner-progress {
+    justify-content: flex-start;
+
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+
+    padding-bottom: 5px;
+  }
+
+  .scan-step {
+    flex:
+      0 0 auto;
+  }
+
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 520px) {
+
+  .page-shell {
+    padding:
+      12px
+      10px
+      50px;
+  }
+
+  .topbar {
+    border-radius: 18px;
+  }
+
+  .brand-name {
+    font-size: 1rem;
+  }
+
+  .brand-tagline {
+    font-size: 0.62rem;
+  }
+
+  .nav {
+    gap: 12px;
+
+    font-size: 0.72rem;
+  }
+
+  .hero {
+    padding-top: 30px;
+  }
+
+  h1 {
+    font-size:
+      clamp(
+        2.7rem,
+        13vw,
+        4rem
+      );
+  }
+
+  .subtitle {
+    font-size: 0.88rem;
+  }
+
+  .scanner-shell {
+    padding: 10px;
+
+    border-radius: 24px;
+  }
+
+  .scanner-stage {
+    height: 70vh;
+
+    min-height: 500px;
+
+    border-radius: 20px;
+  }
+
+  .camera-frame {
+    top: 8%;
+
+    left: 5%;
+
+    width: 90%;
+
+    height: 62%;
+
+    border-radius: 20px;
+  }
+
+  .banana-guide {
+    width: 220px;
+    height: 150px;
+  }
+
+  .banana-outline {
+    width: 190px;
+    height: 105px;
+  }
+
+  .scan-line {
+    width: 78%;
+  }
+
+  .scan-status {
+    bottom: 92px;
+
+    gap: 6px;
+  }
+
+  .status-text {
+    font-size: 0.68rem;
+  }
+
+  .status-indicator {
+    font-size: 0.58rem;
+  }
+
+  .scan-button-wrap {
+    width: 88%;
+
+    bottom: 20px;
+  }
+
+  .scan-button {
+    padding:
+      16px 18px;
+
+    font-size: 0.74rem;
+
+    border-radius: 15px;
+  }
+
+  .scanner-progress {
+    margin-top: 12px;
+
+    gap: 7px;
+  }
+
+  .scan-step {
+    padding:
+      7px 10px;
+
+    font-size: 0.58rem;
+  }
+
+  .result-card {
+    border-radius: 22px;
+
+    padding: 18px;
+  }
+
+  .report-visual {
+    min-height: 240px;
+
+    border-radius: 20px;
+  }
+
+  .score-ring {
+    width: 160px;
+    height: 160px;
+  }
+
+  .metrics li {
+    font-size: 0.78rem;
+
+    padding:
+      10px 11px;
+  }
+
+  .verdict-card {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    padding: 17px;
+  }
+
+  .history-section {
+    border-radius: 22px;
+
+    padding: 18px;
+  }
+
+  .history-item {
+    font-size: 0.75rem;
+
+    padding:
+      11px 12px;
+  }
+
+  .timeline-labels {
+    font-size: 0.58rem;
+  }
+
+  .banana-bubble {
+    left: 18px;
+
+    right: 18px;
+
+    bottom: 20px;
+
+    max-width: none;
+
+    text-align: center;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .scanner-stage {
+    min-height: 470px;
+
+    height: 68vh;
+  }
+
+  .camera-frame {
+    height: 58%;
+  }
+
+  .banana-guide {
+    width: 190px;
+    height: 130px;
+  }
+
+  .banana-outline {
+    width: 165px;
+    height: 90px;
+  }
+
+  .scan-status {
+    bottom: 88px;
+  }
+
+  .scan-button {
+    padding:
+      14px 15px;
+
+    font-size: 0.68rem;
+  }
+}
