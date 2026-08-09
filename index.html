@@ -1,208 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BananaReady 🍌</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <div class="brand">
-          <div class="brand-mark">🍌</div>
-          <div class="brand-copy">
-            <div class="brand-name">BananaReady</div>
-            <div class="brand-tagline">Because nobody knows when a banana is actually ready.</div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BananaReady 🍌</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">🍌</div>
+        <div class="brand-copy">
+          <div class="brand-name">BananaReady</div>
+          <div class="brand-tagline">Because nobody knows when a banana is actually ready.</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#">Home</a>
+        <a href="#">How It Works</a>
+        <a href="#">Scan History</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">AI banana intelligence</div>
+        <h1>Is Your Banana Ready?</h1>
+        <p class="subtitle">Let our extremely unnecessary AI decide.</p>
+      </div>
+
+      <section class="scanner-shell" aria-label="Banana scanner">
+        <div class="scanner-stage" id="scannerStage">
+
+   
+          <video id="camera" class="camera-preview" autoplay playsinline muted></video>
+
+          <div class="camera-grid"></div>
+          <div class="camera-frame"></div>
+
+          <div class="banana-guide">
+            <div class="banana-outline"></div>
           </div>
+
+
+          <div class="scan-line"></div>
+
+   
+          <div class="scan-status">
+            <span class="status-text" id="statusText">
+              Starting camera...
+            </span>
+
+            <span class="status-indicator">
+              <span class="live-dot"></span>
+              <span id="statusLabel">Connecting</span>
+            </span>
+          </div>
+
+    
+          <div class="scan-button-wrap">
+            <button class="scan-button" id="scanButton" type="button" disabled>
+              🔍 Scan Banana
+            </button>
+          </div>
+
         </div>
 
-        <nav class="nav" aria-label="Main navigation">
-          <a href="#">Home</a>
-          <a href="#">How It Works</a>
-          <a href="#">Scan History</a>
-        </nav>
-      </header>
+        
+        <canvas id="captureCanvas" hidden></canvas>
 
-      <main class="hero">
-        <div class="hero-copy">
-          <div class="eyebrow">AI banana intelligence</div>
-          <h1>Is Your Banana Ready?</h1>
-          <p class="subtitle">Let our extremely unnecessary AI decide.</p>
+        <div class="scanner-progress" aria-live="polite" id="scannerProgress">
+          <div class="scan-step">Banana detected</div>
+          <div class="scan-step">Checking color</div>
+          <div class="scan-step">Analyzing brown spots</div>
+          <div class="scan-step">Measuring ripeness</div>
+          <div class="scan-step">
+            Consulting the Banana Intelligence Department
+          </div>
+        </div>
+      </section>
+
+
+
+      <section class="result-panel" id="resultPanel" aria-live="polite">
+        <div class="result-card">
+          <h2>Your Banana Report</h2>
+          <p class="result-disclaimer">AI visual estimate — not food safety certified.</p>
+
+          <div class="report-grid">
+            <div class="report-visual" aria-label="Banana image preview">
+              <div class="banana-scene">
+                <img id="bananaPreview" alt="Scanned banana preview" />
+              </div>
+            </div>
+
+            <div class="score-block">
+              <div class="score-ring">
+                <svg viewBox="0 0 220 220" aria-label="Ripeness score">
+                  <defs>
+                    <linearGradient id="bananaGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#f5d35d" />
+                      <stop offset="100%" stop-color="#f0b023" />
+                    </linearGradient>
+                  </defs>
+                  <circle class="track" cx="110" cy="110" r="70"></circle>
+                  <circle class="progress" id="scoreProgress" cx="110" cy="110" r="70" stroke-dasharray="440"
+                    stroke-dashoffset="440"></circle>
+                </svg>
+                <div class="score-number" id="scoreNumber">—</div>
+              </div>
+
+              <ul class="metrics">
+                <li>
+                  <span class="label">🍌 Banana detected</span>
+                  <span class="value" id="metricDetected">—</span>
+                </li>
+                <li>
+                  <span class="label">🎨 Color</span>
+                  <span class="value" id="metricColor">—</span>
+                </li>
+                <li>
+                  <span class="label">🟤 Brown spots</span>
+                  <span class="value" id="metricBrownSpots">—</span>
+                </li>
+                <li>
+                  <span class="label">🟢 Condition</span>
+                  <span class="value" id="metricCondition">—</span>
+                </li>
+                <li>
+                  <span class="label">📊 Confidence</span>
+                  <span class="value" id="metricConfidence">—</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="verdict-card verdict-ready" id="verdictCard">
+            <div class="icon">🟢</div>
+            <div>
+              <h3>SCAN A BANANA</h3>
+              <p>Place a banana in the scanner to receive your report.</p>
+              <small>AI visual estimate only</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="history-section" aria-label="Banana history">
+        <div class="history-header">
+          <h3>Banana History</h3>
+          <button class="ask-button" id="askButton" type="button">Ask the Banana 🍌</button>
         </div>
 
-<section class="scanner-shell" aria-label="Banana scanner">
-  <div class="scanner-stage" id="scannerStage">
+        <div class="history-list" id="historyList"></div>
 
-    <!-- Camera feed -->
-    <video
-      id="camera"
-      class="camera-preview"
-      autoplay
-      playsinline
-      muted
-    ></video>
+        <div class="timeline-wrap">
+          <div class="timeline-labels">
+            <span>Unripe</span>
+            <span>Almost Ready</span>
+            <span>Perfect</span>
+            <span>Overripe</span>
+          </div>
 
-    <!-- Camera visual overlay -->
-    <div class="camera-grid"></div>
-    <div class="camera-frame"></div>
-
-    <div class="banana-guide">
-      <div class="banana-outline"></div>
-    </div>
-
-    <!-- Animated scanning line -->
-    <div class="scan-line"></div>
-
-    <!-- Camera status -->
-    <div class="scan-status">
-      <span
-        class="status-text"
-        id="statusText"
-      >
-        Starting camera...
-      </span>
-
-      <span class="status-indicator">
-        <span class="live-dot"></span>
-        <span id="statusLabel">Connecting</span>
-      </span>
-    </div>
-
-    <!-- Scan button -->
-    <div class="scan-button-wrap">
-      <button
-        class="scan-button"
-        id="scanButton"
-        type="button"
-        disabled
-      >
-        🔍 Scan Banana
-      </button>
-    </div>
-
+          <div class="timeline-bar" aria-label="Ripeness timeline">
+            <div class="timeline-track"></div>
+            <div class="timeline-dots">
+              <span class="dot unripe"></span>
+              <span class="dot almost"></span>
+              <span class="dot perfect"></span>
+              <span class="dot overripe"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <!-- Hidden canvas used to capture the camera frame -->
-  <canvas
-    id="captureCanvas"
-    hidden
-  ></canvas>
+  <div class="banana-bubble" id="bananaBubble" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+  <script src="script.js" type="module"></script>
+</body>
 
-  <!-- Scan progress -->
-  <div
-    class="scanner-progress"
-    aria-live="polite"
-    id="scannerProgress"
-  >
-    <div class="scan-step">Banana detected</div>
-    <div class="scan-step">Checking color</div>
-    <div class="scan-step">Analyzing brown spots</div>
-    <div class="scan-step">Measuring ripeness</div>
-    <div class="scan-step">
-      Consulting the Banana Intelligence Department
-    </div>
-  </div>
-</section>
-
-
-
-        <section class="result-panel" id="resultPanel" aria-live="polite">
-          <div class="result-card">
-            <h2>Your Banana Report</h2>
-            <p class="result-disclaimer">AI visual estimate — not food safety certified.</p>
-
-            <div class="report-grid">
-              <div class="report-visual" aria-label="Banana image preview">
-                <div class="banana-scene">
-                  <img id="bananaPreview" alt="Scanned banana preview" />
-                </div>
-              </div>
-
-              <div class="score-block">
-                <div class="score-ring">
-                  <svg viewBox="0 0 220 220" aria-label="Ripeness score">
-                    <defs>
-                      <linearGradient id="bananaGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#f5d35d" />
-                        <stop offset="100%" stop-color="#f0b023" />
-                      </linearGradient>
-                    </defs>
-                    <circle class="track" cx="110" cy="110" r="70"></circle>
-                    <circle class="progress" id="scoreProgress" cx="110" cy="110" r="70" stroke-dasharray="440" stroke-dashoffset="440"></circle>
-                  </svg>
-                  <div class="score-number" id="scoreNumber">—</div>
-                </div>
-
-                <ul class="metrics">
-                  <li>
-                    <span class="label">🍌 Banana detected</span>
-                    <span class="value" id="metricDetected">—</span>
-                  </li>
-                  <li>
-                    <span class="label">🎨 Color</span>
-                    <span class="value" id="metricColor">—</span>
-                  </li>
-                  <li>
-                    <span class="label">🟤 Brown spots</span>
-                    <span class="value" id="metricBrownSpots">—</span>
-                  </li>
-                  <li>
-                    <span class="label">🟢 Condition</span>
-                    <span class="value" id="metricCondition">—</span>
-                  </li>
-                  <li>
-                    <span class="label">📊 Confidence</span>
-                    <span class="value" id="metricConfidence">—</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="verdict-card verdict-ready" id="verdictCard">
-              <div class="icon">🟢</div>
-              <div>
-                <h3>SCAN A BANANA</h3>
-                <p>Place a banana in the scanner to receive your report.</p>
-                <small>AI visual estimate only</small>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="history-section" aria-label="Banana history">
-          <div class="history-header">
-            <h3>Banana History</h3>
-            <button class="ask-button" id="askButton" type="button">Ask the Banana 🍌</button>
-          </div>
-
-          <div class="history-list" id="historyList"></div>
-
-          <div class="timeline-wrap">
-            <div class="timeline-labels">
-              <span>Unripe</span>
-              <span>Almost Ready</span>
-              <span>Perfect</span>
-              <span>Overripe</span>
-            </div>
-
-            <div class="timeline-bar" aria-label="Ripeness timeline">
-              <div class="timeline-track"></div>
-              <div class="timeline-dots">
-                <span class="dot unripe"></span>
-                <span class="dot almost"></span>
-                <span class="dot perfect"></span>
-                <span class="dot overripe"></span>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <div class="banana-bubble" id="bananaBubble" aria-live="polite"></div>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
-    <script src="script.js" type="module"></script>
-  </body>
 </html>
