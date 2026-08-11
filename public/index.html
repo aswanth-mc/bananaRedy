@@ -63,10 +63,91 @@
 
     
           <div class="scan-button-wrap">
-            <button class="scan-button" id="scanButton" type="button" disabled>
-              🔍 Scan Banana
-            </button>
-          </div>
+
+    <button
+        class="scan-button"
+        id="scanButton"
+        type="button"
+    >
+        🔍 SCAN BANANA
+    </button>
+
+    <section class="upload-section">
+
+    <div class="upload-divider">
+        <span>OR UPLOAD A PHOTO</span>
+    </div>
+
+    <label class="upload-box" for="imageInput">
+
+        <div class="upload-icon">
+            📤
+        </div>
+
+        <div class="upload-content">
+
+            <strong>
+                Upload a banana photo
+            </strong>
+
+            <span>
+                Click to choose an image or drag it here
+            </span>
+
+        </div>
+
+        <div class="upload-button">
+            Choose Image
+        </div>
+
+    </label>
+
+    <input
+        type="file"
+        id="imageInput"
+        accept="image/jpeg,image/png,image/webp"
+    >
+
+
+    <!-- Selected image -->
+
+    <div
+        class="selected-file"
+        id="selectedFile"
+    >
+
+        <div
+            class="file-preview"
+            id="filePreview"
+        ></div>
+
+
+        <div class="file-info">
+
+            <strong id="fileName">
+                Selected image
+            </strong>
+
+            <span id="fileSize">
+                0 KB
+            </span>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="remove-file"
+            id="removeFile"
+        >
+            ×
+        </button>
+
+    </div>
+
+</section>    
+
+</div>
 
         </div>
 
