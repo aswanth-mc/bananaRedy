@@ -95,6 +95,20 @@ console.log(
     "bytes"
 );
 
+
+// Send cropped banana to Node.js
+const qualityResult =
+    await scanImage(bananaCrop);
+
+if (!qualityResult) {
+    return;
+}
+
+console.log(
+    "🍌 Quality analysis result:",
+    qualityResult
+);
+
 console.log(
     "✅ Banana accepted:",
     aiResult

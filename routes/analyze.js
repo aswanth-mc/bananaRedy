@@ -2,12 +2,16 @@ const express = require("express");
 const multer = require("multer");
 
 const { analyzeImage } = require("../services/imageAnalyzer");
+const { calculateRipeness } =
+    require("../services/ripenessAnalyzer");
 
 const router = express.Router();
 
 const upload = multer({
     storage: multer.memoryStorage()
 });
+
+
 
 router.post("/", upload.single("image"), async (req, res) => {
 
@@ -39,11 +43,19 @@ router.post("/", upload.single("image"), async (req, res) => {
             "🎨 Visual analysis:",
             visualAnalysis
         );
+        const ripeness =
+    calculateRipeness(visualAnalysis);
+
+console.log(
+    "🍌 Ripeness analysis:",
+    ripeness
+);
 
         return res.json({
             success: true,
             message: "🍌 Image analyzed successfully",
-            visualAnalysis
+            visualAnalysis,
+            ripeness
         });
 
     } catch (error) {
