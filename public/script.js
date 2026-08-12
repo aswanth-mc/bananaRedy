@@ -42,6 +42,7 @@ scanButton.addEventListener("click", async () => {
 imageInput.addEventListener("change", async () => {
 
     const file = imageInput.files[0];
+    
 
     if (!file) {
         return;
@@ -50,12 +51,27 @@ imageInput.addEventListener("change", async () => {
     console.log("📤 Upload selected:", file.name);
 
     showSelectedFile(file);
+    await analyzeUploadedImage(file);
 
-    const result = await scanImage(file);
+    const aiResult = await analyzeUploadedImage(file);
 
-    if (result) {
-        console.log("✅ Upload analysis completed");
-    }
+if (!aiResult) {
+    return;
+}
+
+if (!aiResult.bananaDetected) {
+
+    alert(
+        "🍌 No banana detected!\n\nPlease upload a banana image."
+    );
+
+    return;
+}
+
+console.log(
+    "✅ Banana accepted:",
+    aiResult
+);
 
 });
 
@@ -248,4 +264,214 @@ async function captureFrame() {
         );
 
     });
+}
+
+
+let aiModel = null;
+
+async function loadAIModel() {
+
+    console.log("🧠 Loading MobileNet...");
+
+    try {
+
+        // Check TensorFlow.js
+        console.log(
+            "TensorFlow.js:",
+            tf.version.tfjs
+        );
+
+        // Check MobileNet
+        console.log(
+            "MobileNet library:",
+            typeof mobilenet
+        );
+
+        // Load model
+        aiModel = await mobilenet.load();
+
+        console.log(
+            "✅ MobileNet loaded successfully!"
+        );
+
+        console.log(
+            "Model is ready:",
+            aiModel
+        );
+
+    } catch (error) {
+
+        console.error(
+            "❌ MobileNet loading failed:"
+        );
+
+        console.error(error);
+
+    }
+}
+
+loadAIModel();
+
+async function analyzeCameraImage() {
+
+    if (!aiModel) {
+        console.error("❌ AI model is not loaded yet.");
+        return;
+    }
+
+    const imageBlob = await captureFrame();
+
+    if (!imageBlob) {
+        console.error("❌ Could not capture camera frame.");
+        return;
+    }
+
+    const imageURL = URL.createObjectURL(imageBlob);
+
+    const image = new Image();
+
+    image.onload = async () => {
+
+        try {
+
+            console.log("🧠 Sending image to MobileNet...");
+
+            const predictions =
+                await aiModel.classify(image);
+
+            console.log("🍌 MobileNet predictions:");
+
+            predictions.forEach(
+                (prediction, index) => {
+
+                    console.log(
+                        `${index + 1}. ${prediction.className} — ${(prediction.probability * 100).toFixed(2)}%`
+                    );
+
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "❌ AI analysis failed:",
+                error
+            );
+
+        } finally {
+
+            URL.revokeObjectURL(imageURL);
+
+        }
+
+    };
+
+    image.src = imageURL;
+}
+
+
+const testAIButton =
+    document.getElementById("testAIButton");
+
+
+if (testAIButton) {
+
+    testAIButton.addEventListener(
+        "click",
+        analyzeCameraImage
+    );
+
+}
+async function analyzeUploadedImage(file) {
+
+    if (!aiModel) {
+        console.error("❌ AI model is not loaded yet.");
+        return;
+    }
+
+    console.log("🧠 Analyzing uploaded image:", file.name);
+
+    const imageURL = URL.createObjectURL(file);
+
+    const image = new Image();
+
+    image.onload = async () => {
+
+        try {
+
+            const predictions =
+    await aiModel.classify(image);
+
+console.log("🍌 MobileNet predictions:");
+
+predictions.forEach(
+    (prediction, index) => {
+
+        console.log(
+            `${index + 1}. ${prediction.className} — ${(prediction.probability * 100).toFixed(2)}%`
+        );
+
+    }
+);
+
+
+// Check whether MobileNet detected a banana
+const bananaResult =
+    detectBanana(predictions);
+
+
+if (bananaResult.detected) {
+
+    console.log(
+        `✅ BANANA DETECTED — ${(bananaResult.confidence * 100).toFixed(2)}%`
+    );
+
+} else {
+
+    console.log(
+        "❌ NO BANANA DETECTED"
+    );
+
+}
+
+        } catch (error) {
+
+            console.error(
+                "❌ AI analysis failed:",
+                error
+            );
+
+        } finally {
+
+            URL.revokeObjectURL(imageURL);
+
+        }
+    };
+
+    image.src = imageURL;
+}
+
+function detectBanana(predictions) {
+
+    const bananaPrediction = predictions.find(
+        prediction =>
+            prediction.className
+                .toLowerCase()
+                .includes("banana")
+    );
+
+    if (!bananaPrediction) {
+        return {
+            detected: false,
+            confidence: 0
+        };
+    }
+
+    const confidence =
+        bananaPrediction.probability;
+
+    return {
+        detected: confidence >= 0.50,
+        confidence
+    };
 }
