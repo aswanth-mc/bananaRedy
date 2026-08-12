@@ -8,6 +8,7 @@ node_modules/
 
 # Uploaded images
 uploads/
+banana-dataset/
 
 # AI/model files
 models/
