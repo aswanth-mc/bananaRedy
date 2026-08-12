@@ -3,6 +3,53 @@ const imageInput = document.getElementById("imageInput");
 const camera = document.getElementById("camera");
 const statusText = document.getElementById("statusText");
 const statusLabel = document.getElementById("statusLabel");
+const varietyCards =
+    document.querySelectorAll(".variety-card");
+
+const selectedVarietyText =
+    document.getElementById("selectedVariety");
+
+let selectedVariety = null;
+varietyCards.forEach((card) => {
+
+    card.addEventListener("click", () => {
+
+        varietyCards.forEach((item) => {
+
+            item.classList.remove("selected");
+
+            item.setAttribute(
+                "aria-pressed",
+                "false"
+            );
+
+        });
+
+        card.classList.add("selected");
+
+        card.setAttribute(
+            "aria-pressed",
+            "true"
+        );
+
+        selectedVariety =
+            card.dataset.variety;
+
+        const varietyName =
+            card.querySelector(
+                ".variety-name"
+            ).textContent;
+
+        selectedVarietyText.textContent =
+            `Selected banana: ${varietyName} ✓`;
+
+        console.log(
+            "🍌 Selected variety:",
+            selectedVariety
+        );
+    });
+
+});
 
 
 // ========================================
@@ -173,10 +220,18 @@ async function scanImage(imageBlob) {
         const formData = new FormData();
 
         formData.append(
-            "image",
-            imageBlob,
-            "banana.jpg"
-        );
+    "image",
+    imageBlob,
+    "banana.jpg"
+);
+
+if (selectedVariety) {
+
+    formData.append(
+        "variety",
+        selectedVariety
+    );
+}
 
         const response = await fetch("/api/analyze", {
             method: "POST",

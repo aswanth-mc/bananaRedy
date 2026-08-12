@@ -33,6 +33,82 @@
         <p class="subtitle">Let our extremely unnecessary AI decide.</p>
       </div>
 
+      <section class="variety-section" aria-label="Select banana variety">
+
+    <div class="variety-header">
+        <span class="variety-eyebrow">STEP 1</span>
+
+        <h2>What kind of banana is this?</h2>
+
+        <p>
+            Select the banana type so BananaReady can use
+            the appropriate ripeness profile.
+        </p>
+    </div>
+
+    <div class="variety-options">
+
+        <button
+            type="button"
+            class="variety-card"
+            data-variety="robusta"
+            aria-pressed="false"
+        >
+            <span class="variety-icon">🍌</span>
+
+            <span class="variety-name">
+                Robusta
+            </span>
+
+            <span class="variety-description">
+                Can remain green when ripe
+            </span>
+        </button>
+
+
+        <button
+            type="button"
+            class="variety-card"
+            data-variety="red-dacca"
+            aria-pressed="false"
+        >
+            <span class="variety-icon">🔴</span>
+
+            <span class="variety-name">
+                Red Dacca
+            </span>
+
+            <span class="variety-description">
+                Chenkadali / naturally reddish
+            </span>
+        </button>
+
+
+        <button
+            type="button"
+            class="variety-card"
+            data-variety="other"
+            aria-pressed="false"
+        >
+            <span class="variety-icon">🍌</span>
+
+            <span class="variety-name">
+                Other
+            </span>
+
+            <span class="variety-description">
+                General banana profile
+            </span>
+        </button>
+
+    </div>
+
+    <div class="selected-variety" id="selectedVariety">
+        Select a banana type to continue.
+    </div>
+
+</section>
+
       <section class="scanner-shell" aria-label="Banana scanner">
         <div class="scanner-stage" id="scannerStage">
 
@@ -71,17 +147,23 @@
     >
         🔍 SCAN BANANA
     </button>
-    <button id="testAIButton" type="button">
-    🧠 TEST AI
-</button>
 
-    <section class="upload-section">
+</div>
+
+</div> <!-- scanner-stage -->
+
+
+<section class="upload-section" aria-label="Upload banana image">
 
     <div class="upload-divider">
         <span>OR UPLOAD A PHOTO</span>
     </div>
 
-    <label class="upload-box" for="imageInput">
+    <label
+        class="upload-box"
+        for="imageInput"
+        id="uploadBox"
+    >
 
         <div class="upload-icon">
             📤
@@ -105,14 +187,13 @@
 
     </label>
 
+
     <input
         type="file"
         id="imageInput"
         accept="image/jpeg,image/png,image/webp"
     >
 
-
-    <!-- Selected image -->
 
     <div
         class="selected-file"
@@ -123,7 +204,6 @@
             class="file-preview"
             id="filePreview"
         ></div>
-
 
         <div class="file-info">
 
@@ -137,7 +217,6 @@
 
         </div>
 
-
         <button
             type="button"
             class="remove-file"
@@ -148,7 +227,7 @@
 
     </div>
 
-</section>    
+</section>  
 
 </div>
 
@@ -292,7 +371,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
-  <script src="script.js" type="module"></script>
+
+<script src="script.js"></script>
 </body>
 
 </html>

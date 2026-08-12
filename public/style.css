@@ -2000,6 +2000,256 @@ h1 {
     translateY(0);
 }
 
+/* ========================================
+   BANANA VARIETY SELECTOR
+======================================== */
+
+.variety-section {
+    width: 100%;
+    max-width: 1050px;
+
+    margin: 34px auto 0;
+
+    text-align: center;
+}
+
+.variety-header {
+    margin-bottom: 20px;
+}
+
+.variety-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    color: var(--yellow);
+
+    font-size: 0.68rem;
+
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+}
+
+.variety-header h2 {
+    margin: 0;
+
+    font-size:
+        clamp(
+            1.5rem,
+            3vw,
+            2.2rem
+        );
+
+    letter-spacing: -0.05em;
+}
+
+.variety-header p {
+    margin:
+        8px auto 0;
+
+    max-width: 620px;
+
+    color: var(--muted);
+
+    font-size: 0.9rem;
+
+    line-height: 1.5;
+}
+
+
+.variety-options {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 14px;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+}
+
+
+.variety-card {
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 150px;
+
+    padding: 20px 16px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    border-radius: 22px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.variety-card:hover {
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(245, 201, 69, 0.4);
+
+    background:
+        rgba(245, 201, 69, 0.06);
+
+    box-shadow:
+        0 15px 35px
+        rgba(0, 0, 0, 0.18);
+}
+
+
+.variety-card.selected {
+    border-color:
+        var(--yellow);
+
+    background:
+        rgba(245, 201, 69, 0.1);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(245, 201, 69, 0.08),
+        0 15px 35px
+        rgba(0, 0, 0, 0.18);
+}
+
+
+.variety-icon {
+    width: 52px;
+    height: 52px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 16px;
+
+    background:
+        rgba(245, 201, 69, 0.1);
+
+    font-size: 1.6rem;
+}
+
+
+.variety-name {
+    font-size: 0.95rem;
+
+    font-weight: 850;
+}
+
+
+.variety-description {
+    max-width: 180px;
+
+    color:
+        var(--muted);
+
+    font-size: 0.72rem;
+
+    line-height: 1.4;
+}
+
+
+.selected-variety {
+    margin:
+        16px auto 0;
+
+    width: fit-content;
+
+    max-width: 90%;
+
+    padding:
+        9px 14px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(245, 201, 69, 0.08);
+
+    border:
+        1px solid
+        rgba(245, 201, 69, 0.15);
+
+    color:
+        var(--yellow);
+
+    font-size: 0.72rem;
+
+    font-weight: 700;
+}
+
+
+.test-ai-button {
+    margin:
+        14px auto 0;
+
+    display: block;
+
+    padding:
+        9px 14px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.1);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color:
+        var(--muted);
+
+    cursor: pointer;
+}
+
+
+@media (max-width: 700px) {
+
+    .variety-options {
+        grid-template-columns: 1fr;
+    }
+
+    .variety-card {
+        min-height: 110px;
+
+        flex-direction: row;
+
+        text-align: left;
+    }
+
+    .variety-description {
+        max-width: none;
+    }
+}
+
 
 
 @keyframes scanSweep {
