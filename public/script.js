@@ -41,80 +41,123 @@ scanButton.addEventListener("click", async () => {
 
 imageInput.addEventListener("change", async () => {
 
+    if (!modelsReady) {
+        alert(
+            "🧠 Banana Intelligence is still waking up. Please wait."
+        );
+        return;
+    }
+
     const file = imageInput.files[0];
-    
 
     if (!file) {
         return;
     }
 
-    console.log("📤 Upload selected:", file.name);
+    console.log(
+        "📤 Upload selected:",
+        file.name
+    );
 
     showSelectedFile(file);
-    
 
-    const aiResult = await analyzeUploadedImage(file);
 
-if (!aiResult) {
-    return;
-}
+    // ========================================
+    // COCO-SSD: PRIMARY BANANA DETECTION
+    // ========================================
 
-if (!aiResult.bananaDetected) {
-
-    alert(
-        "🍌 No banana detected!\n\nPlease upload a banana image."
-    );
-
-    return;
-}
-    // COCO-SSD: Where is the banana?
     const bananaObject =
-    await detectBananaObject(file);
+        await detectBananaObject(file);
 
-if (!bananaObject) {
+    if (!bananaObject) {
+
+        alert(
+            "🍌 I couldn't locate a banana in this image."
+        );
+
+        return;
+    }
+
+
     console.log(
-        "❌ Banana location could not be determined."
+        `🍌 BANANA LOCATED — ${(bananaObject.score * 100).toFixed(2)}%`
     );
 
-    return;
-}
 
-const bananaCrop =
-    await cropBananaImage(
-        file,
-        bananaObject
+    // ========================================
+    // MOBILE NET: OPTIONAL CLASSIFICATION
+    // ========================================
+
+    const aiResult =
+        await analyzeUploadedImage(file);
+
+    if (aiResult) {
+
+        console.log(
+            "🧠 MobileNet result:",
+            aiResult
+        );
+
+    }
+
+
+    // ========================================
+    // CROP BANANA
+    // ========================================
+
+    const bananaCrop =
+        await cropBananaImage(
+            file,
+            bananaObject
+        );
+
+    if (!bananaCrop) {
+
+        console.log(
+            "❌ Could not crop banana."
+        );
+
+        return;
+    }
+
+
+    console.log(
+        "✅ Banana cropped:",
+        bananaCrop.size,
+        "bytes"
     );
 
-if (!bananaCrop) {
-    return;
-}
 
-console.log(
-    "🍌 Cropped banana image:",
-    bananaCrop.size,
-    "bytes"
-);
+    // ========================================
+    // QUALITY ANALYSIS
+    // ========================================
+
+    const qualityResult =
+        await scanImage(bananaCrop);
+
+    if (!qualityResult) {
+
+        console.log(
+            "❌ Quality analysis failed."
+        );
+
+        return;
+    }
 
 
-// Send cropped banana to Node.js
-const qualityResult =
-    await scanImage(bananaCrop);
+    console.log(
+        "🍌 Quality analysis:",
+        qualityResult
+    );
 
-if (!qualityResult) {
-    return;
-}
 
-console.log(
-    "🍌 Quality analysis result:",
-    qualityResult
-);
-
-console.log(
-    "✅ Banana accepted:",
-    aiResult
-);
+    displayResult(qualityResult);
 
 });
+
+console.log(
+    "✅ Banana analysis completed"
+);
 
 
 // ========================================
@@ -175,6 +218,229 @@ async function scanImage(imageBlob) {
     }
 }
 
+
+// ========================================
+// DISPLAY ANALYSIS RESULT
+// ========================================
+
+function displayResult(result) {
+
+    if (!result || !result.success) {
+        console.error("❌ Invalid analysis result.");
+        return;
+    }
+
+    console.log("📊 Displaying Banana Report:", result);
+
+    // Get UI elements
+    const resultPanel =
+        document.getElementById("resultPanel");
+
+    const scoreNumber =
+        document.getElementById("scoreNumber");
+
+    const bananaDetectedValue =
+        document.getElementById("bananaDetectedValue");
+
+    const bananaColorValue =
+        document.getElementById("bananaColorValue");
+
+    const brownSpotsValue =
+        document.getElementById("brownSpotsValue");
+
+    const conditionValue =
+        document.getElementById("conditionValue");
+
+    const confidenceValue =
+        document.getElementById("confidenceValue");
+
+    const verdictCard =
+        document.getElementById("verdictCard");
+
+    const verdictIcon =
+        document.getElementById("verdictIcon");
+
+    const verdictTitle =
+        document.getElementById("verdictTitle");
+
+    const verdictMessage =
+        document.getElementById("verdictMessage");
+
+    const verdictWindow =
+        document.getElementById("verdictWindow");
+
+
+    // Check backend data
+    const visual =
+        result.visualAnalysis;
+
+    const ripeness =
+        result.ripeness;
+
+    if (!visual || !ripeness) {
+        console.error(
+            "❌ Missing visualAnalysis or ripeness data."
+        );
+        return;
+    }
+
+
+    // Get values
+    const score =
+        ripeness.score ?? 0;
+
+    const yellow =
+        visual.yellowPercent ?? 0;
+
+    const green =
+        visual.greenPercent ?? 0;
+
+    const brown =
+        visual.brownPercent ?? 0;
+
+    const dark =
+        visual.darkPercent ?? 0;
+
+
+    // Determine dominant visible color
+    let dominantColor = "Unknown";
+
+    if (
+        yellow >= green &&
+        yellow >= brown &&
+        yellow >= dark
+    ) {
+        dominantColor = "Yellow";
+    }
+
+    else if (
+        green >= yellow &&
+        green >= brown &&
+        green >= dark
+    ) {
+        dominantColor = "Green";
+    }
+
+    else if (
+        brown >= yellow &&
+        brown >= green &&
+        brown >= dark
+    ) {
+        dominantColor = "Brown";
+    }
+
+    else if (dark >= yellow && dark >= green) {
+        dominantColor = "Dark";
+    }
+
+
+    // Update report
+    if (scoreNumber) {
+        scoreNumber.textContent = `${score}%`;
+    }
+
+    if (bananaDetectedValue) {
+        bananaDetectedValue.textContent = "Yes";
+    }
+
+    if (bananaColorValue) {
+        bananaColorValue.textContent = dominantColor;
+    }
+
+    if (brownSpotsValue) {
+        brownSpotsValue.textContent =
+            `${brown.toFixed(1)}%`;
+    }
+
+    if (conditionValue) {
+        conditionValue.textContent =
+            ripeness.condition;
+    }
+
+    if (confidenceValue) {
+        confidenceValue.textContent =
+            `${Math.round(score)}%`;
+    }
+
+
+    // Verdict style
+    if (verdictCard) {
+        verdictCard.className =
+            "verdict-card";
+    }
+
+    let icon = "🟡";
+
+    switch (ripeness.stage) {
+
+        case "NOT RIPE":
+            icon = "🟢";
+            verdictCard?.classList.add(
+                "verdict-ready"
+            );
+            break;
+
+        case "ALMOST READY":
+            icon = "🟡";
+            verdictCard?.classList.add(
+                "verdict-perfect"
+            );
+            break;
+
+        case "READY TO EAT":
+            icon = "🟢";
+            verdictCard?.classList.add(
+                "verdict-ready"
+            );
+            break;
+
+        case "EAT SOON":
+            icon = "🟠";
+            verdictCard?.classList.add(
+                "verdict-soon"
+            );
+            break;
+
+        case "OVER-RIPE":
+        case "POSSIBLE VISUAL SPOILAGE":
+            icon = "🔴";
+            verdictCard?.classList.add(
+                "verdict-late"
+            );
+            break;
+    }
+
+
+    if (verdictIcon) {
+        verdictIcon.textContent = icon;
+    }
+
+    if (verdictTitle) {
+        verdictTitle.textContent =
+            ripeness.stage;
+    }
+
+    if (verdictMessage) {
+        verdictMessage.textContent =
+            ripeness.recommendation;
+    }
+
+    if (verdictWindow) {
+        verdictWindow.textContent =
+            "Visual AI estimate — inspect the banana physically before eating.";
+    }
+
+
+    // Show result panel
+    if (resultPanel) {
+        resultPanel.classList.add("visible");
+
+        resultPanel.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+}
 
 // ========================================
 // SHOW SELECTED IMAGE
@@ -308,56 +574,49 @@ async function captureFrame() {
 }
 
 
+// ========================================
+// AI MODELS
+// ========================================
+
 let aiModel = null;
 let objectDetectionModel = null;
 
+let modelsReady = false;
+
+
+// Load MobileNet
 async function loadAIModel() {
 
     console.log("🧠 Loading MobileNet...");
 
     try {
 
-        // Check TensorFlow.js
-        console.log(
-            "TensorFlow.js:",
-            tf.version.tfjs
-        );
-
-        // Check MobileNet
-        console.log(
-            "MobileNet library:",
-            typeof mobilenet
-        );
-
-        // Load model
         aiModel = await mobilenet.load();
 
         console.log(
             "✅ MobileNet loaded successfully!"
         );
 
-        console.log(
-            "Model is ready:",
-            aiModel
-        );
+        return aiModel;
 
     } catch (error) {
 
         console.error(
-            "❌ MobileNet loading failed:"
+            "❌ MobileNet loading failed:",
+            error
         );
 
-        console.error(error);
-
+        throw error;
     }
 }
 
-loadAIModel();
+
+// Load COCO-SSD
 async function loadObjectDetectionModel() {
 
-    try {
+    console.log("📦 Loading COCO-SSD...");
 
-        console.log("📦 Loading COCO-SSD...");
+    try {
 
         objectDetectionModel =
             await cocoSsd.load();
@@ -366,15 +625,51 @@ async function loadObjectDetectionModel() {
             "✅ COCO-SSD loaded successfully!"
         );
 
+        return objectDetectionModel;
+
     } catch (error) {
 
         console.error(
             "❌ COCO-SSD loading failed:",
             error
         );
+
+        throw error;
     }
 }
-loadObjectDetectionModel();
+
+
+// Load both models
+async function loadModels() {
+
+    console.log("🧠 Initializing AI...");
+
+    try {
+
+        await Promise.all([
+            loadAIModel(),
+            loadObjectDetectionModel()
+        ]);
+
+        modelsReady = true;
+
+        console.log(
+            "✅ All AI models are ready!"
+        );
+
+    } catch (error) {
+
+        modelsReady = false;
+
+        console.error(
+            "❌ AI initialization failed:",
+            error
+        );
+    }
+}
+
+loadModels();
+
 async function detectBananaObject(file) {
 
     if (!objectDetectionModel) {
@@ -407,7 +702,7 @@ async function detectBananaObject(file) {
                     await objectDetectionModel.detect(
                         image,
                         20,
-                        0.5
+                        0.30
                     );
 
                 console.log(

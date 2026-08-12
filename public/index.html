@@ -199,38 +199,62 @@
               </div>
 
               <ul class="metrics">
-                <li>
-                  <span class="label">🍌 Banana detected</span>
-                  <span class="value" id="metricDetected">—</span>
-                </li>
-                <li>
-                  <span class="label">🎨 Color</span>
-                  <span class="value" id="metricColor">—</span>
-                </li>
-                <li>
-                  <span class="label">🟤 Brown spots</span>
-                  <span class="value" id="metricBrownSpots">—</span>
-                </li>
-                <li>
-                  <span class="label">🟢 Condition</span>
-                  <span class="value" id="metricCondition">—</span>
-                </li>
-                <li>
-                  <span class="label">📊 Confidence</span>
-                  <span class="value" id="metricConfidence">—</span>
-                </li>
-              </ul>
+
+    <li>
+        <span class="label">🍌 Banana detected</span>
+        <span class="value" id="bananaDetectedValue">Yes</span>
+    </li>
+
+    <li>
+        <span class="label">🎨 Color</span>
+        <span class="value" id="bananaColorValue">Unknown</span>
+    </li>
+
+    <li>
+        <span class="label">🟤 Brown spots</span>
+        <span class="value" id="brownSpotsValue">0%</span>
+    </li>
+
+    <li>
+        <span class="label">🟢 Condition</span>
+        <span class="value" id="conditionValue">Unknown</span>
+    </li>
+
+    <li>
+        <span class="label">📊 Confidence</span>
+        <span class="value" id="confidenceValue">0%</span>
+    </li>
+
+</ul>
             </div>
           </div>
 
-          <div class="verdict-card verdict-ready" id="verdictCard">
-            <div class="icon">🟢</div>
-            <div>
-              <h3>SCAN A BANANA</h3>
-              <p>Place a banana in the scanner to receive your report.</p>
-              <small>AI visual estimate only</small>
-            </div>
-          </div>
+          <div
+    class="verdict-card verdict-ready"
+    id="verdictCard"
+>
+
+    <div class="icon" id="verdictIcon">
+        🟢
+    </div>
+
+    <div>
+
+        <h3 id="verdictTitle">
+            READY TO EAT
+        </h3>
+
+        <p id="verdictMessage">
+            Waiting for analysis...
+        </p>
+
+        <small id="verdictWindow">
+            Visual AI estimate
+        </small>
+
+    </div>
+
+</div>
         </div>
       </section>
 
