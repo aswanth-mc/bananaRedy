@@ -51,7 +51,7 @@ imageInput.addEventListener("change", async () => {
     console.log("📤 Upload selected:", file.name);
 
     showSelectedFile(file);
-    await analyzeUploadedImage(file);
+    
 
     const aiResult = await analyzeUploadedImage(file);
 
@@ -67,6 +67,33 @@ if (!aiResult.bananaDetected) {
 
     return;
 }
+    // COCO-SSD: Where is the banana?
+    const bananaObject =
+    await detectBananaObject(file);
+
+if (!bananaObject) {
+    console.log(
+        "❌ Banana location could not be determined."
+    );
+
+    return;
+}
+
+const bananaCrop =
+    await cropBananaImage(
+        file,
+        bananaObject
+    );
+
+if (!bananaCrop) {
+    return;
+}
+
+console.log(
+    "🍌 Cropped banana image:",
+    bananaCrop.size,
+    "bytes"
+);
 
 console.log(
     "✅ Banana accepted:",
@@ -268,6 +295,7 @@ async function captureFrame() {
 
 
 let aiModel = null;
+let objectDetectionModel = null;
 
 async function loadAIModel() {
 
@@ -311,6 +339,139 @@ async function loadAIModel() {
 }
 
 loadAIModel();
+async function loadObjectDetectionModel() {
+
+    try {
+
+        console.log("📦 Loading COCO-SSD...");
+
+        objectDetectionModel =
+            await cocoSsd.load();
+
+        console.log(
+            "✅ COCO-SSD loaded successfully!"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "❌ COCO-SSD loading failed:",
+            error
+        );
+    }
+}
+loadObjectDetectionModel();
+async function detectBananaObject(file) {
+
+    if (!objectDetectionModel) {
+
+        console.error(
+            "❌ COCO-SSD is not loaded yet."
+        );
+
+        return null;
+    }
+
+    console.log(
+        "🔎 Locating objects in:",
+        file.name
+    );
+
+    const imageURL =
+        URL.createObjectURL(file);
+
+    const image =
+        new Image();
+
+    return new Promise((resolve) => {
+
+        image.onload = async () => {
+
+            try {
+
+                const predictions =
+                    await objectDetectionModel.detect(
+                        image,
+                        20,
+                        0.5
+                    );
+
+                console.log(
+                    "📦 COCO-SSD detections:"
+                );
+
+                predictions.forEach(
+                    (prediction, index) => {
+
+                        console.log(
+                            `${index + 1}. ${prediction.class} — ${(prediction.score * 100).toFixed(2)}%`
+                        );
+
+                        console.log(
+                            "Bounding box:",
+                            prediction.bbox
+                        );
+                    }
+                );
+
+
+                const banana =
+                    predictions.find(
+                        prediction =>
+                            prediction.class === "banana"
+                    );
+
+
+                if (!banana) {
+
+                    console.log(
+                        "❌ Banana location not found"
+                    );
+
+                    resolve(null);
+                    return;
+                }
+
+
+                console.log(
+                    "🍌 Banana location found!"
+                );
+
+
+                console.log(
+                    "Confidence:",
+                    `${(banana.score * 100).toFixed(2)}%`
+                );
+
+
+                console.log(
+                    "Bounding box:",
+                    banana.bbox
+                );
+
+
+                resolve(banana);
+
+            } catch (error) {
+
+                console.error(
+                    "❌ Object detection failed:",
+                    error
+                );
+
+                resolve(null);
+
+            } finally {
+
+                URL.revokeObjectURL(
+                    imageURL
+                );
+            }
+        };
+
+        image.src = imageURL;
+    });
+}
 
 async function analyzeCameraImage() {
 
@@ -386,69 +547,104 @@ async function analyzeUploadedImage(file) {
 
     if (!aiModel) {
         console.error("❌ AI model is not loaded yet.");
-        return;
+        return null;
     }
 
-    console.log("🧠 Analyzing uploaded image:", file.name);
-
-    const imageURL = URL.createObjectURL(file);
-
-    const image = new Image();
-
-    image.onload = async () => {
-
-        try {
-
-            const predictions =
-    await aiModel.classify(image);
-
-console.log("🍌 MobileNet predictions:");
-
-predictions.forEach(
-    (prediction, index) => {
-
-        console.log(
-            `${index + 1}. ${prediction.className} — ${(prediction.probability * 100).toFixed(2)}%`
-        );
-
-    }
-);
-
-
-// Check whether MobileNet detected a banana
-const bananaResult =
-    detectBanana(predictions);
-
-
-if (bananaResult.detected) {
-
     console.log(
-        `✅ BANANA DETECTED — ${(bananaResult.confidence * 100).toFixed(2)}%`
+        "🧠 Analyzing uploaded image:",
+        file.name
     );
 
-} else {
+    const imageURL =
+        URL.createObjectURL(file);
 
-    console.log(
-        "❌ NO BANANA DETECTED"
-    );
+    const image =
+        new Image();
 
-}
+    return new Promise((resolve) => {
 
-        } catch (error) {
+        image.onload = async () => {
+
+            try {
+
+                const predictions =
+                    await aiModel.classify(image);
+
+                console.log(
+                    "🍌 MobileNet predictions:"
+                );
+
+                predictions.forEach(
+                    (prediction, index) => {
+
+                        console.log(
+                            `${index + 1}. ${prediction.className} — ${(prediction.probability * 100).toFixed(2)}%`
+                        );
+
+                    }
+                );
+
+                // Check banana
+                const bananaResult =
+                    detectBanana(predictions);
+
+                if (bananaResult.detected) {
+
+                    console.log(
+                        `✅ BANANA DETECTED — ${(bananaResult.confidence * 100).toFixed(2)}%`
+                    );
+
+                } else {
+
+                    console.log(
+                        "❌ NO BANANA DETECTED"
+                    );
+
+                }
+
+                // IMPORTANT:
+                // Return the result to the caller
+                resolve({
+                    bananaDetected:
+                        bananaResult.detected,
+
+                    confidence:
+                        bananaResult.confidence,
+
+                    predictions
+                });
+
+            } catch (error) {
+
+                console.error(
+                    "❌ AI analysis failed:",
+                    error
+                );
+
+                resolve(null);
+
+            } finally {
+
+                URL.revokeObjectURL(
+                    imageURL
+                );
+
+            }
+        };
+
+        image.onerror = () => {
 
             console.error(
-                "❌ AI analysis failed:",
-                error
+                "❌ Could not load uploaded image."
             );
-
-        } finally {
 
             URL.revokeObjectURL(imageURL);
 
-        }
-    };
+            resolve(null);
+        };
 
-    image.src = imageURL;
+        image.src = imageURL;
+    });
 }
 
 function detectBanana(predictions) {
@@ -474,4 +670,124 @@ function detectBanana(predictions) {
         detected: confidence >= 0.50,
         confidence
     };
+}
+async function cropBananaImage(file, bananaObject) {
+
+    console.log("✂️ Cropping banana region...");
+
+    const imageURL = URL.createObjectURL(file);
+
+    const image = new Image();
+
+    return new Promise((resolve) => {
+
+        image.onload = () => {
+
+            const [
+                x,
+                y,
+                width,
+                height
+            ] = bananaObject.bbox;
+
+            // Add a small margin around the detected banana
+            const padding = 10;
+
+            const cropX =
+                Math.max(0, x - padding);
+
+            const cropY =
+                Math.max(0, y - padding);
+
+            const cropWidth =
+                Math.min(
+                    image.width - cropX,
+                    width + padding * 2
+                );
+
+            const cropHeight =
+                Math.min(
+                    image.height - cropY,
+                    height + padding * 2
+                );
+
+
+            const canvas =
+                document.createElement("canvas");
+
+            canvas.width = cropWidth;
+            canvas.height = cropHeight;
+
+
+            const context =
+                canvas.getContext("2d");
+
+
+            context.drawImage(
+                image,
+
+                cropX,
+                cropY,
+                cropWidth,
+                cropHeight,
+
+                0,
+                0,
+                cropWidth,
+                cropHeight
+            );
+
+
+            canvas.toBlob(
+                (blob) => {
+
+                    URL.revokeObjectURL(
+                        imageURL
+                    );
+
+                    if (!blob) {
+
+                        console.error(
+                            "❌ Failed to create cropped image."
+                        );
+
+                        resolve(null);
+                        return;
+                    }
+
+
+                    console.log(
+                        "✅ Banana cropped:",
+                        cropWidth,
+                        "x",
+                        cropHeight
+                    );
+
+
+                    resolve(blob);
+
+                },
+                "image/jpeg",
+                0.95
+            );
+        };
+
+
+        image.onerror = () => {
+
+            console.error(
+                "❌ Could not load image for cropping."
+            );
+
+            URL.revokeObjectURL(
+                imageURL
+            );
+
+            resolve(null);
+        };
+
+
+        image.src = imageURL;
+
+    });
 }
