@@ -58,25 +58,64 @@ varietyCards.forEach((card) => {
 
 scanButton.addEventListener("click", async () => {
 
-    console.log("🔍 Scan button clicked");
+    console.log("🔍 SCAN BUTTON CLICKED");
 
-    const imageBlob = await captureFrame();
-
-    if (!imageBlob) {
-        alert("Unable to capture camera image.");
+    if (!camera.srcObject) {
+        console.error("❌ Camera is not running");
+        alert("Camera is not ready yet.");
         return;
     }
 
-    console.log(
-        "📸 Frame captured:",
-        imageBlob.size,
-        "bytes"
-    );
+    if (camera.videoWidth === 0 || camera.videoHeight === 0) {
+        console.error("❌ Camera video dimensions are not ready");
+        alert("Please wait for the camera to become ready.");
+        return;
+    }
 
-    const result = await scanImage(imageBlob);
+    try {
 
-    if (result) {
-        console.log("🍌 Banana analysis completed");
+        scanButton.disabled = true;
+        scanButton.textContent = "🔍 CHECKING...";
+
+        console.log("📸 Capturing camera frame...");
+
+        const imageBlob = await captureFrame();
+
+        if (!imageBlob) {
+            throw new Error("Could not capture camera frame.");
+        }
+
+        console.log(
+            "✅ Frame captured:",
+            imageBlob.size,
+            "bytes"
+        );
+
+        console.log("🔍 Sending image to backend...");
+
+        const result = await scanImage(imageBlob);
+
+        if (!result) {
+            throw new Error("No analysis result received.");
+        }
+
+        console.log("🍌 Scan result:", result);
+
+        displayResult(result);
+
+    } catch (error) {
+
+        console.error("❌ SCAN ERROR:", error);
+
+        alert(
+            "Something went wrong during the scan. Check the browser console."
+        );
+
+    } finally {
+
+        scanButton.disabled = false;
+        scanButton.textContent = "🔍 SCAN BANANA";
+
     }
 
 });
