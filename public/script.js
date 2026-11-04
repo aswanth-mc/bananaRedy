@@ -60,6 +60,11 @@ scanButton.addEventListener("click", async () => {
 
     console.log("🔍 SCAN BUTTON CLICKED");
 
+    if (!modelsReady || !objectDetectionModel) {
+        alert("🧠 Banana detection is still loading. Please wait.");
+        return;
+    }
+
     if (!camera.srcObject) {
         console.error("❌ Camera is not running");
         alert("Camera is not ready yet.");
@@ -91,9 +96,24 @@ scanButton.addEventListener("click", async () => {
             "bytes"
         );
 
+        const bananaObject =
+            await detectBananaObject(imageBlob);
+
+        if (!bananaObject) {
+            alert("🍌 No banana was detected. Please scan a banana image.");
+            return;
+        }
+
+        const bananaCrop =
+            await cropBananaImage(imageBlob, bananaObject);
+
+        if (!bananaCrop) {
+            throw new Error("Could not crop the detected banana.");
+        }
+
         console.log("🔍 Sending image to backend...");
 
-        const result = await scanImage(imageBlob);
+        const result = await scanImage(bananaCrop);
 
         if (!result) {
             throw new Error("No analysis result received.");
@@ -776,8 +796,8 @@ async function detectBananaObject(file) {
     }
 
     console.log(
-        "🔎 Locating objects in:",
-        file.name
+        "🔎 Locating banana in:",
+        file.name || "camera capture"
     );
 
     const imageURL =
@@ -819,10 +839,16 @@ async function detectBananaObject(file) {
 
 
                 const banana =
-                    predictions.find(
-                        prediction =>
-                            prediction.class === "banana"
-                    );
+                    predictions
+                        .filter(
+                            prediction =>
+                                prediction.class === "banana" &&
+                                prediction.score >= 0.50
+                        )
+                        .sort(
+                            (first, second) =>
+                                second.score - first.score
+                        )[0];
 
 
                 if (!banana) {
@@ -870,6 +896,12 @@ async function detectBananaObject(file) {
                     imageURL
                 );
             }
+        };
+
+        image.onerror = () => {
+            console.error("❌ Could not load image for banana detection.");
+            URL.revokeObjectURL(imageURL);
+            resolve(null);
         };
 
         image.src = imageURL;
