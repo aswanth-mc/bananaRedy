@@ -85,15 +85,39 @@ scanButton.addEventListener("click", async () => {
             throw new Error("Could not capture camera frame.");
         }
 
+        const bananaObject =
+            await detectBananaObject(imageBlob);
+
+        if (!bananaObject) {
+            alert("🍌 I couldn't locate a banana in this image.");
+            return;
+        }
+
+        const bananaCrop =
+            await cropBananaImage(imageBlob, bananaObject);
+
+        if (!bananaCrop) {
+            alert("🍌 I couldn't isolate the banana. Please try another image.");
+            return;
+        }
+
+        const aiResult =
+            await analyzeUploadedImage(bananaCrop);
+
+        if (!aiResult?.bananaDetected) {
+            alert("🍌 This doesn't look like a banana. Please scan a banana.");
+            return;
+        }
+
         console.log(
-            "✅ Frame captured:",
-            imageBlob.size,
+            "✅ Banana captured:",
+            bananaCrop.size,
             "bytes"
         );
 
         console.log("🔍 Sending image to backend...");
 
-        const result = await scanImage(imageBlob);
+        const result = await scanImage(bananaCrop);
 
         if (!result) {
             throw new Error("No analysis result received.");
@@ -171,23 +195,6 @@ imageInput.addEventListener("change", async () => {
 
 
     // ========================================
-    // MOBILE NET: OPTIONAL CLASSIFICATION
-    // ========================================
-
-    const aiResult =
-        await analyzeUploadedImage(file);
-
-    if (aiResult) {
-
-        console.log(
-            "🧠 MobileNet result:",
-            aiResult
-        );
-
-    }
-
-
-    // ========================================
     // CROP BANANA
     // ========================================
 
@@ -203,6 +210,14 @@ imageInput.addEventListener("change", async () => {
             "❌ Could not crop banana."
         );
 
+        return;
+    }
+
+    const aiResult =
+        await analyzeUploadedImage(bananaCrop);
+
+    if (!aiResult?.bananaDetected) {
+        alert("🍌 This doesn't look like a banana. Please choose a banana photo.");
         return;
     }
 
@@ -1056,7 +1071,7 @@ function detectBanana(predictions) {
         prediction =>
             prediction.className
                 .toLowerCase()
-                .includes("banana")
+                .trim() === "banana"
     );
 
     if (!bananaPrediction) {
